@@ -121,7 +121,7 @@ export const Home = () => {
               <p className="card-text">{ note.description }</p>
               <div>
               <p className="card-text">{ note.tag }</p>
-              <div><Edit onClick={() => toggle(note.id)} style={{cursor:'pointer'}} color='blue'/> <Trash2 style={{cursor:'pointer'}} onClick={() => handleDelete(note.id)} color='red'/></div>
+              <div><Button color='primary' onClick={() => toggle(note.id)}><Edit/></Button>&nbsp;&nbsp;<Button color='danger' onClick={() => handleDelete(note.id)}><Trash2/></Button></div>
               </div>
             </div>
           </div>
