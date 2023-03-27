@@ -5,14 +5,13 @@ import { Trash2, Edit } from 'react-feather'
 import logo from './faviconn.ico'
 
 export const Home = () => {
-    const [formData, setFormData] = useState({})
+    const [formData, setFormData] = useState({title:"", description:"", tag:""})
     const [modalData, setModalData] = useState({title:"", description:"", tag:""})
     // Notes array 
     const [allNotes, setAllNotes] = useState([])
     const [id, setId] = useState(1)
     //Alert
     const [visible, setVisible] = useState(false)
-    const [visible1, setVisible1] = useState(false)
    // Modal
     const [modal, setModal] = useState(false)
 
@@ -31,7 +30,6 @@ export const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-       console.log('create')
     if(formData.title && formData.description){
             setAllNotes([...allNotes, { id , ...formData}])
             setId(id + 1)
@@ -51,13 +49,19 @@ export const Home = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault()
-    toggle()
-    console.log('update')
-    const allNotesArray = [...allNotes]
-       const index = allNotes.findIndex((note) => note.id === modalData.id)
-       allNotesArray[index] = modalData
-       setAllNotes(allNotesArray)
-       setModalData({title:"", description:"", tag:""})
+    if(modalData.title && modalData.description){
+      toggle()
+      const allNotesArray = [...allNotes]
+         const index = allNotes.findIndex((note) => note.id === modalData.id)
+         allNotesArray[index] = modalData
+         setAllNotes(allNotesArray)
+         setModalData({title:"", description:"", tag:""})
+    } else {
+      setVisible(true)
+        setTimeout(() => {
+            setVisible(false)
+        }, 2000)
+    }
   }
 
   const  clearModalData = () => {
@@ -88,10 +92,6 @@ export const Home = () => {
 
         <Alert color="danger" style={{position:'fixed', top:'1%', width:'80%', left:'10%'}} isOpen={visible}>
         Title and decription is required
-    </Alert>
-    
-        <Alert color="info" style={{position:'fixed', top:'0', width:'80%', margin:'auto'}} isOpen={visible1}>
-        Processing...
     </Alert>
 
 
@@ -137,15 +137,15 @@ export const Home = () => {
         <ModalBody>
   <div className="form-group mt-2">
     <label htmlFor="title">Title</label>
-    <input onChange={handleUpdateInfo} name='title' value={modalData.title}  type="text" className="form-control" id="title" placeholder="Enter Your Note Titel"/>
+    <input onChange={handleUpdateInfo} name='title' value={modalData?.title || ''}  type="text" className="form-control" id="title" placeholder="Enter Your Note Titel"/>
   </div>
   <div className="form-group mt-2">
     <label htmlFor="description">Description</label>
-    <input onChange={handleUpdateInfo} name='description' value={modalData.description}  type="text" className="form-control" id="description" placeholder="Enter Your Note Description"/>
+    <input onChange={handleUpdateInfo} name='description' value={modalData?.description || ''}  type="text" className="form-control" id="description" placeholder="Enter Your Note Description"/>
   </div>
   <div className="form-group mt-2">
     <label htmlFor="tag">Tag</label>
-    <input onChange={handleUpdateInfo} name='tag' value={modalData.tag}  type="text" className="form-control" id="tag" placeholder="Enter Your Note Tag"/>
+    <input onChange={handleUpdateInfo} name='tag' value={modalData?.tag || ''}  type="text" className="form-control" id="tag" placeholder="Enter Your Note Tag"/>
   </div>
         </ModalBody>
         <ModalFooter>
